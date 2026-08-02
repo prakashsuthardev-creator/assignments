@@ -1,3 +1,4 @@
+import { pathToFileURL } from 'url';
 import { getPrismaClient } from '../db.js';
 import { allowlist } from './allowlist.js';
 
@@ -40,6 +41,15 @@ export async function seedAllowlist() {
 }
 
 // Run directly if called as script
-if (import.meta.url === `file://${process.argv[1]}`) {
-  seedAllowlist().catch(console.error);
+const isDirectRun = process.argv[1]
+  ? import.meta.url === pathToFileURL(process.argv[1]).href
+  : false;
+
+if (isDirectRun) {
+  seedAllowlist()
+    .then(() => process.exit(0))
+    .catch((error) => {
+      console.error(error);
+      process.exit(1);
+    });
 }

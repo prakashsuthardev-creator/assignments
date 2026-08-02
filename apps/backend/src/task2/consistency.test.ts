@@ -94,11 +94,11 @@ test('Unknown status values are excluded by default (fail-closed)', async () => 
 
   // Query using the collected logic to confirm it's excluded
   const collectedCheck = await (prisma as any).$queryRaw`
-    SELECT t.amount_cents
+    SELECT t."amountCents"
     FROM task2_transactions t
     JOIN task2_status_allowlist a
-      ON a.source = t.source AND a.source_status = t.source_status
-    WHERE a.is_collected = true
+      ON a.source = t.source AND a."sourceStatus" = t."sourceStatus"
+    WHERE a."isCollected" = true
       AND t.id = ${unknownStatusTxn.id}
   `;
 

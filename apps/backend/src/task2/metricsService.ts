@@ -35,13 +35,13 @@ export async function getCollectedRevenue(
   if (!groupBy) {
     // Summary: single total using raw SQL to query the collected transactions
     const result = await (prisma as any).$queryRaw`
-      SELECT COALESCE(SUM(t.amount_cents), 0)::text as total
+      SELECT COALESCE(SUM(t."amountCents"), 0)::text as total
       FROM task2_transactions t
       JOIN task2_status_allowlist a
-        ON a.source = t.source AND a.source_status = t.source_status
-      WHERE a.is_collected = true
-        AND t.occurred_at >= ${startDate}::timestamptz
-        AND t.occurred_at <= ${endDate}::timestamptz
+        ON a.source = t.source AND a."sourceStatus" = t."sourceStatus"
+      WHERE a."isCollected" = true
+        AND t."occurredAt" >= ${startDate}::timestamptz
+        AND t."occurredAt" <= ${endDate}::timestamptz
     `;
 
     const totalCents = result[0]?.total ? Number(result[0].total) : 0;
@@ -51,15 +51,15 @@ export async function getCollectedRevenue(
   // Breakdown: group by period
   const rows = await (prisma as any).$queryRaw`
     SELECT 
-      t.occurred_at,
-      t.amount_cents
+      t."occurredAt" as occurred_at,
+      t."amountCents" as amount_cents
     FROM task2_transactions t
     JOIN task2_status_allowlist a
-      ON a.source = t.source AND a.source_status = t.source_status
-    WHERE a.is_collected = true
-      AND t.occurred_at >= ${startDate}::timestamptz
-      AND t.occurred_at <= ${endDate}::timestamptz
-    ORDER BY t.occurred_at
+      ON a.source = t.source AND a."sourceStatus" = t."sourceStatus"
+    WHERE a."isCollected" = true
+      AND t."occurredAt" >= ${startDate}::timestamptz
+      AND t."occurredAt" <= ${endDate}::timestamptz
+    ORDER BY t."occurredAt"
   `;
 
   // Group by period in-memory
