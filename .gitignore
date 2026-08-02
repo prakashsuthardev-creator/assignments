@@ -33,9 +33,6 @@ Thumbs.db
 # Test coverage
 coverage/
 
-# Prisma
-apps/backend/prisma/migrations/
-
 # Misc
 *.zip
 .cache/
