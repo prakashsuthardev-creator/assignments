@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model RecordEntity {
+  id        String   @id @default(cuid())
+  source    String
+  sourceId  String
+  name      String?
+  email     String?
+  phone     String?
+  eventDate String?
+  amount    Decimal? @db.Decimal(10, 2)
+  status    String?
+  updatedAt DateTime @default(now())
+  rawData   Json
+
+  @@unique([source, sourceId])
+  @@map("records")
+}
+
+model SyncCursor {
+  provider  String   @id
+  cursor    String
+  updatedAt DateTime @default(now())
+
+  @@map("sync_cursors")
+}
+
+// Task 2: Revenue Metrics Tables
+
+model Task2Transaction {
+  id           String   @id
+  source       String
+  sourceId     String
+  sourceStatus String
+  amountCents  BigInt
+  currency     String   @default("usd")
+  occurredAt   DateTime
+  raw          Json
+  syncedAt     DateTime @default(now())
+
+  @@unique([source, sourceId])
+  @@map("task2_transactions")
+}
+
+model Task2StatusAllowlist {
+  source       String
+  sourceStatus String
+  isCollected  Boolean
+
+  @@id([source, sourceStatus])
+  @@map("task2_status_allowlist")
+}

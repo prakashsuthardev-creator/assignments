@@ -1,0 +1,14 @@
+[
+  { "source": "stripe", "sourceStatus": "succeeded", "isCollected": true },
+  { "source": "stripe", "sourceStatus": "paid", "isCollected": true },
+  { "source": "stripe", "sourceStatus": "requires_payment_method", "isCollected": false },
+  { "source": "stripe", "sourceStatus": "canceled", "isCollected": false },
+  { "source": "stripe", "sourceStatus": "refunded", "isCollected": false },
+  { "source": "stripe", "sourceStatus": "pending", "isCollected": false },
+  { "source": "legacy_billing", "sourceStatus": "completed", "isCollected": true },
+  { "source": "legacy_billing", "sourceStatus": "voided", "isCollected": false },
+  { "source": "legacy_billing", "sourceStatus": "pending", "isCollected": false },
+  { "source": "partner_x", "sourceStatus": "success", "isCollected": true },
+  { "source": "partner_x", "sourceStatus": "pending", "isCollected": false },
+  { "source": "partner_x", "sourceStatus": "failed", "isCollected": false }
+]

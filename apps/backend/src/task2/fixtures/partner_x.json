@@ -1,0 +1,38 @@
+[
+  {
+    "transaction_id": "px_txn_001",
+    "status": "success",
+    "amount_cents": 24999,
+    "currency": "usd",
+    "timestamp": "2026-01-10T08:00:00Z",
+    "merchant": "Partner Store Alpha",
+    "reference": "ORDER-PX-1001"
+  },
+  {
+    "transaction_id": "px_txn_002",
+    "status": "success",
+    "amount_cents": 17500,
+    "currency": "usd",
+    "timestamp": "2026-01-18T11:30:00Z",
+    "merchant": "Partner Store Beta",
+    "reference": "ORDER-PX-1002"
+  },
+  {
+    "transaction_id": "px_txn_003",
+    "status": "pending",
+    "amount_cents": 9999,
+    "currency": "usd",
+    "timestamp": "2026-01-25T13:20:00Z",
+    "merchant": "Partner Store Gamma",
+    "reference": "ORDER-PX-1003"
+  },
+  {
+    "transaction_id": "px_txn_004",
+    "status": "failed",
+    "amount_cents": 12000,
+    "currency": "usd",
+    "timestamp": "2026-01-29T15:00:00Z",
+    "merchant": "Partner Store Delta",
+    "reference": "ORDER-PX-1004"
+  }
+]
