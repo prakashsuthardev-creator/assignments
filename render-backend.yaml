@@ -1,12 +1,12 @@
 services:
-  # Backend API Service
+  # Backend API Service Only
   - type: web
     name: assignment-backend
     runtime: node
     region: singapore
     plan: free
     buildCommand: pnpm install && cd apps/backend && ../../node_modules/.pnpm/node_modules/.bin/prisma generate && pnpm build
-    startCommand: cd apps/backend && node scripts/migrate-and-seed.js && node dist/index.js
+    startCommand: cd apps/backend && ../../node_modules/.pnpm/node_modules/.bin/prisma migrate deploy && node dist/task2/seed-allowlist.js && node dist/index.js
     envVars:
       - key: NODE_VERSION
         value: 20.20.0
@@ -29,22 +29,8 @@ services:
       - key: GOOGLE_CALENDAR_ID
         value: primary
       - key: FRONTEND_URL
-        value: https://assignment-frontend.onrender.com
+        value: "*"
     healthCheckPath: /api/health
-
-  # Frontend Static Site
-  - type: web
-    name: assignment-frontend
-    runtime: static
-    region: singapore
-    plan: free
-    buildCommand: pnpm install && cd apps/frontend && pnpm build && cp _redirects dist/
-    staticPublishPath: apps/frontend/dist
-    envVars:
-      - key: NODE_VERSION
-        value: 20.20.0
-      - key: VITE_API_URL
-        value: https://assignment-backend.onrender.com
 
 databases:
   - name: assignment-db

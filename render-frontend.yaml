@@ -1,0 +1,14 @@
+services:
+  # Frontend Static Site Only
+  - type: web
+    name: assignment-frontend
+    runtime: static
+    region: singapore
+    plan: free
+    buildCommand: pnpm install && cd apps/frontend && pnpm build && cp _redirects dist/
+    staticPublishPath: apps/frontend/dist
+    envVars:
+      - key: NODE_VERSION
+        value: 20.20.0
+      - key: VITE_API_URL
+        value: https://assignment-backend.onrender.com
