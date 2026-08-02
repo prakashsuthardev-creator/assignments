@@ -5,8 +5,8 @@ services:
     runtime: node
     region: singapore
     plan: free
-    buildCommand: pnpm install && cd apps/backend && ../../node_modules/.pnpm/node_modules/.bin/prisma generate && pnpm build
-    startCommand: cd apps/backend && ../../node_modules/.pnpm/node_modules/.bin/prisma migrate deploy && node dist/task2/seed-allowlist.js && node dist/index.js
+    buildCommand: pnpm install --no-frozen-lockfile && cd apps/backend && pnpm exec prisma generate && pnpm build
+    startCommand: cd apps/backend && pnpm exec prisma migrate deploy && node dist/task2/seed-allowlist.js && node dist/index.js
     envVars:
       - key: NODE_VERSION
         value: 20.20.0

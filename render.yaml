@@ -5,7 +5,7 @@ services:
     runtime: node
     region: singapore
     plan: free
-    buildCommand: pnpm install && cd apps/backend && ../../node_modules/.pnpm/node_modules/.bin/prisma generate && pnpm build
+    buildCommand: pnpm install --no-frozen-lockfile && cd apps/backend && pnpm exec prisma generate && pnpm build
     startCommand: cd apps/backend && node scripts/migrate-and-seed.js && node dist/index.js
     envVars:
       - key: NODE_VERSION

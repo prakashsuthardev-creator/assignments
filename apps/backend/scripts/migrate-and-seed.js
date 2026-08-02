@@ -17,8 +17,8 @@ try {
   const backendDir = resolve(__dirname, '..');
   process.chdir(backendDir);
 
-  // Run Prisma migrate
-  execSync('../../node_modules/.pnpm/node_modules/.bin/prisma migrate deploy', { 
+  // Run Prisma migrate using pnpm exec
+  execSync('pnpm exec prisma migrate deploy', { 
     stdio: 'inherit',
     env: { ...process.env }
   });
