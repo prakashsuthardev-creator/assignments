@@ -3,7 +3,7 @@ services:
   - type: web
     name: assignment-frontend
     runtime: static
-    buildCommand: cd apps/frontend && bash build.sh
+    buildCommand: cd apps/frontend && pnpm install --frozen-lockfile=false && pnpm run build && cp _redirects dist/
     staticPublishPath: apps/frontend/dist
     envVars:
       - key: NODE_VERSION
