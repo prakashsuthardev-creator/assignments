@@ -8,8 +8,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build:frontend": "echo '🚀 Building frontend...' && cd apps/frontend && pnpm install && echo '🔨 Running vite build...' && pnpm run build && echo '📄 Copying _redirects...' && cp _redirects dist/ && echo '✅ Build complete!' && ls -la apps/frontend/dist/",
-    "build": "pnpm -r build",
+    "build": "cd apps/frontend && pnpm install --frozen-lockfile=false && pnpm run build && cp _redirects dist/ && echo 'Frontend build complete!' && ls -la apps/frontend/dist/",
     "build:workspace": "pnpm -r build",
     "dev": "pnpm -r --parallel dev",
     "clean": "pnpm -r clean",
