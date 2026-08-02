@@ -36,9 +36,8 @@ services:
   - type: web
     name: assignment-frontend
     runtime: static
-    region: singapore
     plan: free
-    buildCommand: pnpm install && cd apps/frontend && pnpm build && cp _redirects dist/
+    buildCommand: pnpm install --no-frozen-lockfile && cd apps/frontend && pnpm build && cp _redirects dist/
     staticPublishPath: apps/frontend/dist
     envVars:
       - key: NODE_VERSION
