@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "echo 'Backend build - skipped in frontend deployment' && exit 0",
-    "build:real": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json",
+    "build:skip": "echo 'Backend build - skipped in frontend deployment' && exit 0",
     "start": "node dist/index.js",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev --name init"
