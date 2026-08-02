@@ -36,7 +36,6 @@ services:
   - type: web
     name: assignment-frontend
     runtime: static
-    plan: free
     buildCommand: pnpm install --no-frozen-lockfile && cd apps/frontend && pnpm build && cp _redirects dist/
     staticPublishPath: apps/frontend/dist
     envVars:

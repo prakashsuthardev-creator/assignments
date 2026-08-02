@@ -3,11 +3,10 @@ services:
   - type: web
     name: assignment-frontend
     runtime: static
-    plan: free
     buildCommand: pnpm install --no-frozen-lockfile && cd apps/frontend && pnpm build && cp _redirects dist/
     staticPublishPath: apps/frontend/dist
     envVars:
       - key: NODE_VERSION
         value: 20.20.0
       - key: VITE_API_URL
-        value: https://assignment-backend.onrender.com
+        value: https://assignment-backend-j6gb.onrender.com
