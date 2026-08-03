@@ -36,10 +36,10 @@ export async function ingestAllSources(): Promise<IngestResult> {
 
     const stripe = new Stripe(stripeKey, { apiVersion: '2026-07-29.dahlia' });
 
-    // Fetch Charges (succeeded, refunded, failed, etc.)
+    // Use Charges only — each successful payment creates both a Charge and a
+    // PaymentIntent in Stripe; ingesting both double-counts revenue.
     const charges = await stripe.charges.list({ limit: 50 });
     for (const charge of charges.data) {
-      // Determine status: if fully refunded, mark as 'refunded', else use charge status
       let status = charge.status; // 'succeeded', 'pending', 'failed'
       if (charge.refunded || (charge.amount_refunded && charge.amount_refunded > 0)) {
         status = 'refunded';
@@ -54,21 +54,6 @@ export async function ingestAllSources(): Promise<IngestResult> {
         currency: charge.currency,
         occurred_at: new Date(charge.created * 1000).toISOString(),
         raw: charge as unknown as Record<string, unknown>,
-      });
-    }
-
-    // Fetch PaymentIntents (requires_payment_method, succeeded, canceled, etc.)
-    const paymentIntents = await stripe.paymentIntents.list({ limit: 50 });
-    for (const pi of paymentIntents.data) {
-      transactions.push({
-        id: `stripe:pi_${pi.id}`,
-        source: 'stripe',
-        source_id: `pi_${pi.id}`,
-        source_status: pi.status,
-        amount_cents: pi.amount,
-        currency: pi.currency,
-        occurred_at: new Date(pi.created * 1000).toISOString(),
-        raw: pi as unknown as Record<string, unknown>,
       });
     }
 
@@ -100,8 +85,16 @@ export async function ingestAllSources(): Promise<IngestResult> {
       });
     }
 
-    // Upsert all transactions into database via Prisma (idempotent)
     const prisma = await getTask2Client();
+
+    // Remove legacy PaymentIntent rows from earlier syncs (same payment as a Charge).
+    await (prisma as any).task2Transaction.deleteMany({
+      where: {
+        source: 'stripe',
+        sourceId: { startsWith: 'pi_' },
+      },
+    });
+
     let savedCount = 0;
 
     for (const txn of transactions) {

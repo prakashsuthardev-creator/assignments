@@ -19,9 +19,9 @@ The view is the structural mechanism that prevents drift. Any code that needs "c
 ### Data Sources
 
 #### Real Data: Stripe Test Mode
-- Pulls Charges and PaymentIntents via Stripe API
+- Pulls **Charges only** via Stripe API (not PaymentIntents — each payment creates both, and ingesting both double-counts revenue)
 - Uses the existing `STRIPE_SECRET_KEY` (test mode)
-- Demonstrates real-world status values: `succeeded`, `paid`, `refunded`, `canceled`, etc.
+- Demonstrates real-world status values: `succeeded`, `refunded`, `pending`, `failed`, etc.
 
 #### Fixture Data (Demonstrating Multi-Source Vocabularies)
 - **`legacy_billing`** — Synthetic legacy system with statuses: `completed`, `voided`, `pending`
